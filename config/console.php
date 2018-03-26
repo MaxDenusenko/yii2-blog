@@ -1,5 +1,9 @@
 <?php
 
+use codemix\yii2confload\Config;
+
+Config::initEnv(__DIR__.'/../');
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 

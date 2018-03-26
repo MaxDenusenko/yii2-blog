@@ -1,3 +1,16 @@
+.site_title i {
+    border: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+.img-circle.profile_img {
+    background: none;
+}
+.right_col {
+    height: 100%;
+}
+/**/
 html,
 body {
     height: 100%;
@@ -113,3 +126,4 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+

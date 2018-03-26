@@ -24,7 +24,10 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "yurkinx/yii2-image": "dev-master",
         "vova07/yii2-imperavi-widget": "*",
-        "himiklab/yii2-recaptcha-widget": "*"
+        "himiklab/yii2-recaptcha-widget": "*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "yii2mod/yii2-sweet-alert": "*",
+        "bryglen/yii2-sendgrid": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

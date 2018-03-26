@@ -3,11 +3,8 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -19,6 +16,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -26,54 +24,104 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+<div id="wrapper">
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="#">Future Imperfect</a></h1>
+        <nav class="links">
+            <?php
+            try {
+                echo Nav::widget([
+                    'options' => ['class' => ''],
+                    'items' => [
+                        ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'About', 'url' => ['/site/about']],
+                        ['label' => 'Contact', 'url' => ['/site/contact']],
+                    ],
+                ]);
+            } catch (Exception $e) {
+            }
+            ?>
+        </nav>
+        <nav class="main">
+            <ul>
+                <li class="search">
+                    <a class="fa-search" href="#search">Search</a>
+                    <form id="search" method="get" action="#">
+                        <input type="text" name="query" placeholder="Search" />
+                    </form>
+                </li>
+                <li class="menu">
+                    <a class="fa-bars" href="#menu">Menu</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Menu -->
+    <section id="menu">
+
+        <!-- Search -->
+        <section>
+            <form class="search" method="get" action="#">
+                <input type="text" name="query" placeholder="Search" />
+            </form>
+        </section>
+
+        <!-- Links -->
+        <section>
+            <ul class="links">
+                <li>
+                    <a href="#">
+                        <h3>Lorem ipsum</h3>
+                        <p>Feugiat tempus veroeros dolor</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h3>Dolor sit amet</h3>
+                        <p>Sed vitae justo condimentum</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h3>Feugiat veroeros</h3>
+                        <p>Phasellus sed ultricies mi congue</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <h3>Etiam sed consequat</h3>
+                        <p>Porta lectus amet ultricies</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Actions -->
+        <section>
+            <ul class="actions vertical">
+                <?php if (Yii::$app->user->isGuest) : ?>
+                <li><a href="<?=\yii\helpers\Url::to(['/auth/login'])?>" class="button big fit">Log In</a></li>
+                <li><a href="<?=\yii\helpers\Url::to(['/auth/signup'])?>" class="button big fit">Sign Up</a></li>
+                <?php else: ?>
+                <li><a href="<?=\yii\helpers\Url::to(['/auth/logout'])?>" class="button big fit">Log Out</a></li>
+                <?php endif; ?>
+            </ul>
+        </section>
+
+    </section>
+
+    <!-- Main -->
+    <?=$content?>
+
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<?php try {
+    echo \yii2mod\alert\Alert::widget();
+} catch (Exception $e) {
+} ?>
 
 <?php $this->endBody() ?>
 </body>

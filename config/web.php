@@ -9,11 +9,18 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'name' => 'Best Blog <3',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'sendGrid' => [
+            'class' => 'bryglen\sendgrid\Mailer',
+            'username' => Config::env('SEND_GRID_USER_NAME', 'key'),
+            'password' => Config::env('SEND_GRID_PASSWORD', 'key'),
+            'viewPath' => '@app/mail',
+        ],
         'reCaptcha' => [
             'name' => 'reCaptcha',
             'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
@@ -69,6 +76,11 @@ $config = [
             ],
         ],
 
+    ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
     ],
     'params' => $params,
 ];
