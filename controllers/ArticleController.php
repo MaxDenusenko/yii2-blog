@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\Article;
+use app\models\LikeArticle;
 use app\models\search\ArticleFrontSearch;
+use app\models\ViewsArticle;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,7 +13,7 @@ use yii\web\NotFoundHttpException;
 class ArticleController extends Controller
 {
 
-    public $defaultPageSize = 2;
+    public $defaultPageSize = 4;
 
     /**
      * Displays homepage.
@@ -38,9 +40,26 @@ class ArticleController extends Controller
      */
     public function actionView($id)
     {
+        ViewsArticle::check($id);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionLike($id)
+    {
+        LikeArticle::check($id);
+
+        if (Yii::$app->request->isPjax) {
+
+            $like = count(LikeArticle::getAll($id));
+            $html = "<a href=\"/article/like?id=$id\" class=\"icon fa-heart\">$like</a>";
+            return $html;
+        }
+
+        return $this->goBack();
+
     }
 
     /**
@@ -52,7 +71,7 @@ class ArticleController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Article::find()->active()->with('tags')->andWhere(['id' => $id])->one()) !== null) {
+        if (($model = Article::find()->active()->with('category')->with('tags')->with('user')->andWhere(['id' => $id])->one()) !== null) {
             return $model;
         }
 

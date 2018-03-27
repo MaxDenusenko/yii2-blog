@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\modules\admin\controllers\DefaultController;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -107,6 +108,21 @@ class Article extends \yii\db\ActiveRecord
         return parent::beforeDelete();
     }
 
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => date('Y-m-d'),
+            ]];
+    }
+
     /**
      * @param bool $insert
      * @return bool
@@ -196,11 +212,6 @@ class Article extends \yii\db\ActiveRecord
      */
     public function dateSetting()
     {
-        if (!$this->created_at)
-            $this->created_at = date('Y-m-d');
-        else
-            $this->updated_at = date('Y-m-d');
-
         if (!$this->publisher_at && $this->status != 0)
             $this->publisher_at = date('Y-m-d');
 
@@ -221,6 +232,22 @@ class Article extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getViewsArticles()
+    {
+        return $this->hasMany(ViewsArticle::className(), ['article_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLikeArticles()
+    {
+        return $this->hasMany(LikeArticle::className(), ['article_id' => 'id']);
     }
 
     /**

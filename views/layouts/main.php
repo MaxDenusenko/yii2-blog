@@ -46,13 +46,20 @@ AppAsset::register($this);
         </nav>
         <nav class="main">
             <ul>
+                <?php if (!Yii::$app->user->isGuest) : ?>
+                    <li class="menu">
+                        <a title="<?php if (isset(Yii::$app->user->identity->username)) echo Yii::$app->user->identity->username; else ''?>" href="#" class="fa-user">
+                            <?php if (isset(Yii::$app->user->identity->username)) echo Yii::$app->user->identity->username; else ''?>
+                        </a>
+                    </li>
+                <?php endif;?>
                 <li class="search">
-                    <a class="fa-search" href="#search">Search</a>
+                    <a title="Search" class="fa-search" href="#search">Search</a>
                     <form id="search" method="get" action="#">
                         <input type="text" name="query" placeholder="Search" />
                     </form>
                 </li>
-                <li class="menu">
+                <li title="Menu" class="menu">
                     <a class="fa-bars" href="#menu">Menu</a>
                 </li>
             </ul>
@@ -118,10 +125,11 @@ AppAsset::register($this);
 
 </div>
 
-<?php try {
-    echo \yii2mod\alert\Alert::widget();
-} catch (Exception $e) {
-} ?>
+<?php
+    try {
+        echo \yii2mod\alert\Alert::widget();
+    } catch (Exception $e) {}
+?>
 
 <?php $this->endBody() ?>
 </body>

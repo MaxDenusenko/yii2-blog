@@ -24,7 +24,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'exist',
                 'targetClass' => 'app\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => 'Немає користувача з цією адресою електронної пошти.'
+                'message' => Yii::t('app', 'No user with this email address'),
             ],
         ];
     }
@@ -52,17 +52,13 @@ class PasswordResetRequestForm extends Model
                 return false;
             }
         }
-//        return Yii::$app->mailer->compose('@app/mail/passwordReset', ['user' => $user])
-//            ->setFrom([Yii::$app->config->get('SUPPORT_EMAIL') => Yii::$app->name . ' robot'])
-//            ->setTo($this->email)
-//            ->setSubject('Скидання пароля для ' . Yii::$app->name)
-//            ->send();
+
         try {
             $sendGrid = \Yii::$app->sendGrid;
             $message = $sendGrid->compose('passwordReset', ['user' => $user]);
-            $message->setFrom([Yii::$app->config->get('SUPPORT_EMAIL') => Yii::$app->name . ' robot'])
+            $message->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
                 ->setTo($this->email)
-                ->setSubject('Скидання пароля для ' . Yii::$app->name)
+                ->setSubject(Yii::t('app', 'Reset password for'). ' ' . Yii::$app->name)
                 ->send($sendGrid);
         } catch (\Exception $exception) {
             return false;

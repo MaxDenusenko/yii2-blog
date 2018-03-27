@@ -33,6 +33,7 @@ $this->title = $model->title;
             </ul>
             <ul class="stats">
                 <li><a href="#">General</a></li>
+                <li><a href="#" class="icon fa-eye"><?=count($model->viewsArticles)?></a></li>
                 <li><a href="#" class="icon fa-heart">28</a></li>
                 <li><a href="#" class="icon fa-comment">128</a></li>
             </ul>

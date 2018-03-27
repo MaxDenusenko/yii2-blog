@@ -26,7 +26,7 @@ class AuthController extends SiteController
         }
 
         $model = new LoginForm();
-        if ($model->load(\Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->login() && $model->validate()) {
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -55,7 +55,7 @@ class AuthController extends SiteController
     {
 
         $model = new SignupForm();
-        if ($model->load(\Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if ($user = $model->signup()) {
                 \Yii::$app->session->setFlash('success', 'Підтвердіть вашу електронну адресу');
             } else {
@@ -82,7 +82,7 @@ class AuthController extends SiteController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->confirmEmail()) {
+        if ($model->confirmEmail() && $model->validate()) {
             \Yii::$app->session->setFlash('success', 'Дякуємо! Ваш Email успішно підтверджений');
         } else {
             \Yii::$app->session->setFlash('error', 'Помилка підтвердження Email');
@@ -117,6 +117,7 @@ class AuthController extends SiteController
      * @param $token
      * @return string|Response
      * @throws BadRequestHttpException
+     * @throws \yii\base\Exception
      */
     public function actionPasswordReset($token)
     {

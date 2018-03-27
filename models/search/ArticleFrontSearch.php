@@ -41,7 +41,7 @@ class ArticleFrontSearch extends Article
      */
     public function search($params)
     {
-        $query = Article::find()->active()->joinWith('category');
+        $query = Article::find()->active()->with('category')->with('user')->joinWith('viewsArticles')->joinWith('likeArticles');
 
         // add conditions that should always apply here
 
