@@ -9,6 +9,7 @@ use app\models\ViewsArticle;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii2mod\comments\controllers\ManageController;
 
 class ArticleController extends Controller
 {

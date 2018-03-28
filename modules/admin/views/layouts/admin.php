@@ -91,6 +91,7 @@ $bundle = \app\assets\AdminAsset::register($this);
                                                 ],
                                             ],
                                         ],
+                                        ["label" => "Rbac", "url" => "/admin/rbac", "icon" => "users"],
                                     ],
                                 ]
                             );

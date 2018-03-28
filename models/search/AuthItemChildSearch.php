@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Comment;
+use app\models\AuthItemChild;
 
 /**
- * CommentSearch represents the model behind the search form of `app\models\Comment`.
+ * AuthItemChildSearch represents the model behind the search form of `app\models\AuthItemChild`.
  */
-class CommentSearch extends Comment
+class AuthItemChildSearch extends AuthItemChild
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class CommentSearch extends Comment
     public function rules()
     {
         return [
-            [['id', 'user_id', 'article_id', 'status'], 'integer'],
-            [['text'], 'safe'],
+            [['parent', 'child'], 'safe'],
         ];
     }
 
@@ -41,7 +40,7 @@ class CommentSearch extends Comment
      */
     public function search($params)
     {
-        $query = Comment::find();
+        $query = AuthItemChild::find();
 
         // add conditions that should always apply here
 
@@ -58,14 +57,8 @@ class CommentSearch extends Comment
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'article_id' => $this->article_id,
-            'status' => $this->status,
-        ]);
-
-        $query->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'parent', $this->parent])
+            ->andFilterWhere(['like', 'child', $this->child]);
 
         return $dataProvider;
     }

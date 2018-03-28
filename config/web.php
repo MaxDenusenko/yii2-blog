@@ -15,6 +15,18 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        'i18n' => [
+            'translations' => [
+                'yii2mod.comments' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@yii2mod/comments/messages',
+                ],
+                // ...
+            ],
+        ],
         'sendGrid' => [
             'class' => 'bryglen\sendgrid\Mailer',
             'username' => Config::env('SEND_GRID_USER_NAME', 'key'),
@@ -78,6 +90,9 @@ $config = [
 
     ],
     'modules' => [
+        'comment' => [
+            'class' => 'yii2mod\comments\Module',
+        ],
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],

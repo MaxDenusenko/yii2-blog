@@ -27,7 +27,8 @@
         "himiklab/yii2-recaptcha-widget": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "yii2mod/yii2-sweet-alert": "*",
-        "bryglen/yii2-sendgrid": "*"
+        "bryglen/yii2-sendgrid": "*",
+        "yii2mod/yii2-comments": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
